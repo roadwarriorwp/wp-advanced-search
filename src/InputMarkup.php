@@ -34,14 +34,23 @@ class InputMarkup extends StdObject {
 
         if ($format != 'hidden') {
             $output .= $this->input->getPreHtml();
-            $output .= $this->openWrapper();
-            $output .= $this->inputLabel();
+            if($format == 'checkbox' || $format == 'radio'){
+                $output .= $this->openWrapperFieldset();
+                $output .= $this->inputLegend();
+            }else{
+                $output .= $this->openWrapper();
+                $output .= $this->inputLabel();
+            }
         }
 
         $output .= $this->generateInnerMarkup($format);
 
         if ($format != 'hidden') {
-            $output .= $this->closeWrapper();
+            if($format == 'checkbox' || $format == 'radio'){
+                $output .= $this->closeWrapperFieldset();
+            }else{
+                $output .= $this->closeWrapper();
+            }
             $output .= $this->input->getPostHtml();
         }
 
@@ -79,6 +88,33 @@ class InputMarkup extends StdObject {
         if ($label) {
             $output .= '<div class="label-container">' .
                 '<label for="' . $this->input->getId() . '">' . $label . '</label></div>';
+        }
+        return $output;
+    }
+
+    private function openWrapperFieldset() {
+        $output = '';
+        $id = $this->input->getId();
+        if ($this->input->wrappersDisabled() === false) {
+            $output .= '<fieldset id="wpas-'.$id.'"  class="wpas-'
+                .$id.' wpas-'.$this->input->getFieldType().'-field wpas-field">';
+        }
+        return $output;
+    }
+
+    private function closeWrapperFieldset() {
+        $output = '';
+        if ($this->input->wrappersDisabled() === false) {
+            $output .= '</fieldset>';
+        }
+        return $output;
+    }
+
+    private function inputLegend() {
+        $output = '';
+        $label = $this->input->getLabel();
+        if ($label) {
+            $output .= '<legend class="label-container">' . $label . '</legend>';
         }
         return $output;
     }

@@ -13,7 +13,7 @@ results appear when using AJAX.
         <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
         <p><strong>Author:</strong> <?php the_author();?> &nbsp;&nbsp; <strong>Date:</strong> <?php the_date();?></p>
         <?php the_excerpt(); ?>
-        <p><a href="<?php the_permalink(); ?>">Read more...</a></p>
+        <p><a href="<?php the_permalink(); ?>">Read more... <span class="sr-only"> about <?php echo get_the_title(); ?></span></a></p>
 
     <?php endwhile; ?>
 
